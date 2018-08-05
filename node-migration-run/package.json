@@ -1,0 +1,19 @@
+{
+  "name": "node-migration-run",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "fs": "0.0.1-security",
+    "readfiles": "^1.0.0"
+  },
+  "dependencies": {
+    "os": "^0.1.1",
+    "path": "^0.12.7"
+  }
+}

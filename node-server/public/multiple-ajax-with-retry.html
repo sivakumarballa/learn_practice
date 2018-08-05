@@ -1,0 +1,45 @@
+<html>
+    <body>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script>
+            var makeAjaxCalls = function(data, retryCount) {
+                var deferreds = data.map(function(url) {
+                    return makeAjax(url, retryCount);
+                });
+                function makeAjax(url, retryCount) {
+                    var deferred = $.Deferred();
+                    $.ajax({
+                        url : url,
+                        type : 'GET',
+                        tryCount : 0,
+                        retryLimit : retryCount,
+                        success : function(json) {
+                            console.log("Success...");
+                            deferred.resolve(json);
+                        },
+                        error : function(xhr, textStatus, errorThrown ) {
+                            if (textStatus == 'timeout' || 1) {
+                                this.tryCount++;
+                                if (this.tryCount < this.retryLimit) {
+                                    setTimeout(() => {
+                                        $.ajax(this);
+                                    }, 1000);
+                                } else {
+                                    deferred.reject();
+                                }
+                            }
+                        }
+                    });
+                    return deferred.promise();
+                }
+                return $.when(...deferreds);
+            };
+            var data = ["http://localhost/img/photo.png", "http://localhost/img/photo1.png"];
+            makeAjaxCalls(data, 3).then(function(...callbacks) {
+                console.log("All success");
+            }, function(e) {
+                console.log("Some failed");
+            });      
+        </script>
+    </body>
+</html>
