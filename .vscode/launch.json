@@ -7,8 +7,8 @@
         {
             "type": "node",
             "request": "launch",
-            "name": "Promise Chaining",
-            "program": "${workspaceFolder}/JSTips/promise-chaining.js"
+            "name": "Debug",
+            "program": "${workspaceFolder}/JSTips/oops.js"
         },
         {
             "type": "node",
