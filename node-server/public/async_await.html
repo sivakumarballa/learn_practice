@@ -1,0 +1,32 @@
+<html>
+
+<body>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script>
+        var makeAjaxCalls = function (data, retryCount) {
+            let tryIt = function (url, retryCount) {
+                return fetch(url).then(response => {
+                    return response.json();
+                }).catch(err => {
+                    if (retryCount === 1) throw err;
+                    return tryIt(url, retryCount - 1);
+                });
+            };
+
+            let promises = data.map(url => {
+                return tryIt(url, retryCount);
+            });
+            return Promise.all(promises);
+        }
+
+        var data = ["http://localhost:3000/file1.json", "http://localhost/file2.json"];
+        makeAjaxCalls(data, 3).then(function (...callbacks) {
+            console.log("All success");
+            console.log(callbacks);
+        }, function (e) {
+            console.log("Some failed");
+        });
+    </script>
+</body>
+
+</html>

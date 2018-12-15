@@ -1,0 +1,48 @@
+<html>
+    <body>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script>
+            var makeAjaxCalls = function(data, retryCount) {
+                let tryIt = function(url, retryCount) {
+                    let _deferred = $.Deferred();
+                    $.ajax({
+                        url: url,
+                        type: 'GET',
+                        tryCounter: 0,
+                        retries: retryCount-1,
+                        success: function(data) {
+                            _deferred.resolve(data);
+                        },
+                        error: function(xhr, status) {
+                            if (status === 'timeout' || status === 'error') {
+                                this.tryCounter++;
+                                if (this.tryCounter <= this.retries) {
+                                    setTimeout(() => {
+                                        $.ajax(this);
+                                    }, 2000);
+                                } else {
+                                    _deferred.reject();
+                                }
+                            }
+                        }
+                    });
+
+                    return _deferred.promise();
+                };
+
+                let deferreds = data.map(url => {
+                    return tryIt(url, retryCount);
+                });
+                return $.when(...deferreds);
+            }
+
+            var data = ["http://localhost:3000/file1.json", "http://localhost:3000/file1.json"];
+            makeAjaxCalls(data, 3).then(function(...callbacks) {
+                console.log("All success");
+                console.log(callbacks);
+            }, function(e) {
+                console.log("Some failed");
+            });
+        </script>
+    </body>
+</html>
