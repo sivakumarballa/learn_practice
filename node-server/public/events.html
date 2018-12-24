@@ -1,0 +1,91 @@
+<html>
+
+<head>
+    <style type="text/css">
+        .gp {
+            background: gray;
+            width: 200px;
+            padding: 20px;
+        }
+
+        .parent {
+            background: red;
+            padding: 20px;
+            margin: 10px 0px;
+        }
+
+        .child {
+            background: yellow;
+            margin: 10px 0px;
+            height: 50px;
+        }
+    </style>
+</head>
+
+<body class="class1 class2">
+    <input id="myButton" type="button" value="Click me" onclick="onClick(event)" />
+    <h2> Heading 2</h2>
+    <div class="gp" id="gp">
+        Grand Parent
+        <div class="parent" id="parent">
+            Parent1
+            <div class="child"> Child1</div>
+        </div>
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+    <script>
+        // var element = document.getElementById("myButton");
+
+        // element.onclick = function (e) {
+        //     console.log("I'm Div 1");
+        // }
+        // element.onclick = function (e) {
+        //     return false;
+        //     console.log("I'm Div 2");
+        // }
+
+        // element.addEventListener('click', function (e) {
+        //     console.log("I'm the button 1");
+        //     e.stopPropagation();
+        // }, {
+        //         once: true
+        //     });
+        // element.addEventListener('click', function (e) {
+        //     console.log("I'm the button 2");
+        //     e.stopPropagation();
+        // });
+    </script>
+
+    <script>
+        // var gp = document.getElementById("gp");
+        var parent = document.getElementById("parent");
+
+        // gp.onclick = function (e) {
+        //     console.log("Grand Parent onclick");
+        // }
+        // parent.onclick = function (e) {
+        //     e.stopPropagation();
+        //     // e.stopImmediatePropagation();
+        //     console.log("Parent onclick");
+        // }
+
+        // gp.addEventListener('click', function (e) {
+        //     console.log("Grand Parent addEventListener");
+        // });
+        // parent.addEventListener('click', function (e) {
+        //     e.stopPropagation();
+        //     console.log("Parent addEventListener");
+        // });
+    </script>
+
+    <script>
+        var elems = document.querySelectorAll('div');
+        for (let elem of elems) {
+            elem.addEventListener('click', e => alert(`Bubbling: ${e.currentTarget.className}`), false);
+            elem.addEventListener('click', e => alert(`Capturing: ${e.currentTarget.className}`), true);
+        }
+    </script>
+</body>
+
+</html>
