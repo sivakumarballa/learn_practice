@@ -1,0 +1,10 @@
+<table class="tictactoe">
+  <tr *ngFor="let row of rows; let r = index">
+    <td class="cell" *ngFor="let col of cols; let c = index" 
+      [attr.data-row]="r+1" [attr.data-col]="c+1" 
+      [attr.data-diagonal1]="r === c"
+      [attr.data-diagonal2]="c === rows.length - r - 1" (click)="set($event)"></td>
+  </tr>
+</table>
+
+<div> Next Player: {{this.turn}}</div>

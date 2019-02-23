@@ -1,0 +1,27 @@
+<h2> {{name}} {{age}}</h2>
+<div *ngFor="let emp of employees"> {{emp}}</div>
+<div [hidden]="flag">Flag</div>
+<input [readonly]="flag" value="Siva"/>
+<input [disabled]="flag" [value]="name"/>
+
+<div 
+  [ngClass]="{'siva': flag}" 
+  [class.kumar]="flag"
+  [ngStyle]="{'font-size.px':24}"
+  [style.padding.px]="10">
+  Class
+</div>
+
+<input [value]="name" (input)="name=$event.target.value"/>
+<button (click)="print()"> Print </button>
+
+
+<input [(ngModel)]="name" />
+<input [ngModel]="name" (ngModelChange)="name = $event"/>
+
+<button (click)="inc()">Change Age</button>
+<button (click)="onReset()">Reset</button>
+
+<div>{{obj | json}}</div>
+
+<input #box (keyup)="null"><p>{{box.value}}</p>

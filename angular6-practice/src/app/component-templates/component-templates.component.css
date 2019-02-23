@@ -1,0 +1,8 @@
+:host(.active) {
+    display: block;
+    border: 1px solid black;
+}
+
+:host-context(.main) {
+    background-color: red;
+}

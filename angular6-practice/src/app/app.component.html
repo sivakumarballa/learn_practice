@@ -1,0 +1,22 @@
+<div>
+    <div>
+        <h2> First Player Details</h2>
+        <input type="text" [(ngModel)]="players[0].name" placeholder="Player Name" />
+        <input type="text" [(ngModel)]="players[0].symbol" placeholder="Player Symbol" />
+    </div>
+
+    <div>
+        <h2> Second Player Details</h2>
+        <input type="text" [(ngModel)]="players[1].name" placeholder="Player Name" />
+        <input type="text" [(ngModel)]="players[1].symbol" placeholder="Player Symbol" />
+    </div>
+
+    <div>
+        <h2>No.of Games</h2>
+        <input type="number" [(ngModel)]="gamesCount" placeholder="No.of Games"/>
+    </div>
+
+    <button (click)="startGame()">Start the Game</button>
+
+    <app-tictactoe *ngIf="canStartGame" [players]="players" [gamesCount]="gamesCount"></app-tictactoe>
+</div>
