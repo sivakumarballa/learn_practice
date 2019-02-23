@@ -1,0 +1,49 @@
+<html>
+<head>
+    <style>
+        html {
+            font-size: 100%;
+        }
+
+        ul {
+            font-size: 1em;
+        }
+    </style>
+</head>
+<body>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <div class="name"> Name1 </div>
+    <div class="name"> Name2 </div>
+
+    <script>
+        var name = "Divami";
+        function Class() {
+            var name = "Software";
+            function type(e) {
+                $(e.currentTarget).html(name);
+            }
+            return type;
+        }
+
+        function handler(e) {
+            $(e.currentTarget).html(name);
+        }
+
+        $($(".name")[0]).on("click", handler);
+        $($(".name")[1]).on("click", Class());
+    </script>
+
+    <ul>
+        <li> Siva </li>
+        <li> Prasanna </li>
+        <ul>
+            <li>Ravi</li>
+            <li>Kumar</li>
+        </ul>
+    </ul>
+
+    <input class="company" type="text" value="Eze" />
+    <a class="search" href="www.google.com">Google Search</a>
+</body>
+
+</html>

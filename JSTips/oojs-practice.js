@@ -8,6 +8,18 @@ Function.prototype.bind = function () {
   };
 };
 
+var obj = {
+  a: 100,
+  b: 200
+}
+function abc(x, y) {
+  console.log(this.a, this.b);
+  console.log(arguments);
+}
+var another = abc.bind(obj, 10, 20);
+another(30, 40);
+
+
 Function.prototype.method = function (name, func) {
   if (!this.prototype[name]) {
     this.prototype[name] = func;

@@ -19,8 +19,8 @@
             return Promise.all(promises);
         }
 
-        var data = ["http://localhost:3000/file1.json", "http://localhost/file2.json"];
-        makeAjaxCalls(data, 3).then(function (...callbacks) {
+        var data = ["http://localhost:3000/file1.json", "http://localhost:3000/file2.json"];
+        makeAjaxCalls(data, 3).then(function (callbacks) {
             console.log("All success");
             console.log(callbacks);
         }, function (e) {

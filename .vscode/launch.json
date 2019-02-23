@@ -8,7 +8,7 @@
             "type": "node",
             "request": "launch",
             "name": "Debug",
-            "program": "${workspaceFolder}/JSTips/oops.js"
+            "program": "${workspaceFolder}/JSTips/modules/main.mjs"
         },
         {
             "type": "node",

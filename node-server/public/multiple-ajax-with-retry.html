@@ -3,9 +3,6 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
         <script>
             var makeAjaxCalls = function(data, retryCount) {
-                var deferreds = data.map(function(url) {
-                    return makeAjax(url, retryCount);
-                });
                 function makeAjax(url, retryCount) {
                     var deferred = $.Deferred();
                     $.ajax({
@@ -32,9 +29,13 @@
                     });
                     return deferred.promise();
                 }
+
+                var deferreds = data.map(function(url) {
+                    return makeAjax(url, retryCount);
+                });
                 return $.when(...deferreds);
             };
-            var data = ["http://localhost/img/photo.png", "http://localhost/img/photo1.png"];
+            var data = ["http://localhost:3000/file1.json", "http://localhost/img/photo1.png"];
             makeAjaxCalls(data, 3).then(function(...callbacks) {
                 console.log("All success");
             }, function(e) {
