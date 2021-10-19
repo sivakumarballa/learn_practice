@@ -1,0 +1,6 @@
+[submodule "service-workers"]
+	path = service-workers
+	url = https://github.com/FrontendMasters/service-workers-offline.git
+[submodule "web-workers"]
+	path = web-workers
+	url = https://github.com/FrontendMasters/web-workers.git
