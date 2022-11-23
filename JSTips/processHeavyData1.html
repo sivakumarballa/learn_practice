@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+    <button type='button' onClick="initiateProcessing()">Process</button>
+    <button type='button' onClick="alert('click event')">User Action</button>
+
+    <script>
+        function getRecords(size){
+            return Array(size).fill(2);
+        }
+
+        function initiateProcessing()
+        {
+            var start = new Date().getTime();
+            var records = getRecords(10000000);
+            var result = processData(records);
+            console.log(result);
+            console.log('execution time ' + (new Date().getTime() -  start)/1000);
+        }
+
+        function processData(records)
+        {
+            var result=0;
+            for(var i=0;i<records.length;i++){
+                for (var j=0;j<1500;j++){ }
+                result += i;
+            }
+            return result;
+        }
+    </script>
+</body>
+</html>

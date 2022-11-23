@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+    <button type='button' onClick="initiateProcessing()">Process</button>
+    <button type='button' onClick="alert('click event')">User Action</button>
+
+    <script>
+        function getRecords(size){
+            return Array(size).fill(2);
+        }
+
+        function initiateProcessing()
+        {
+            var offset = 0;
+            var chunkSize = 50000;
+            var chunk = [];
+            var start = new Date().getTime();
+            var records = getRecords(10000000);
+            var result = 0;
+            //var chunk = records.slice(offset, chunkSize + offset);
+            //var result = processData(chunk);
+            //console.log(result);
+            //console.log('execution time ' + (new Date().getTime() -  start) / 1000);
+
+            function processChunkByChunk()
+            {
+                setTimeout(() => {
+                    console.log('chunk');
+                    var chunk = records.slice(offset, chunkSize + offset);
+                    offset += chunkSize;
+                    result += processData(chunk);
+                    if(offset<=records.length)
+                        processChunkByChunk();
+                    else
+                        console.log(result);
+                }, 0);
+            }
+            processChunkByChunk();
+        }
+
+        function processData(records)
+        {
+            var result=0;
+            for(var i=0;i<records.length;i++){
+                for (var j=0;j<1500;j++){ }
+                result += records[i];
+            }
+            return result;
+        }
+    </script>
+</body>
+</html>
