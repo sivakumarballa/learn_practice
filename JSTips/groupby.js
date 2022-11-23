@@ -1,81 +1,83 @@
-const data = [{
-    name: 'Google',
-    age: 20,
-    city: 'Hyderabad'
+var data = [{
+	"name": "a1",
+	"age": 20,
+	"city": "Hyderabad",
+	"pincode": 521126
 }, {
-    name: 'Microsoft',
-    age: 28,
-    city: 'Hyderabad'
+	"name": "a2",
+	"age": 28,
+	"city": "Hyderabad"
 }, {
-    name: 'Yahoo',
-    age: 20,
-    city: 'Bangalore'
+	"name": "a3",
+	"age": 20,
+	"city": "Hyderabad",
+	"pincode": 500018
 }, {
-    name: 'Google',
-    age: 20,
-    city: 'Pune'
+	"name": "a1",
+	"age": 28,
+	"city": "Banglore"
+}, {
+	"name": "a1",
+	"age": 28,
+	"city": "",
+	"pincode": 500018
 }];
 
-// approach 3
-function groupBy3(data, key) {
-    // map, filter, reduce
-    return data.reduce(function(acc, obj) {
-        const groupKey = obj[key];
-        if (!groupKey) return acc;
+function groupBy(data,groupByKey)
+{
+	var jsonData = {}, key;
+	
+	for(var i=0;i<data.length;i++)
+	{
+		if(data[i].hasOwnProperty(groupByKey)){
+			key = data[i][groupByKey]
+			//working source
+				// if(!jsonData.hasOwnProperty(data[i][groupByKey]))
+				// 	jsonData[data[i][groupByKey]] = [];
+				
+				// jsonData[data[i][groupByKey]].push(data[i]);
+			//working source
+			
+			
+			//testing source
+			if(!jsonData.hasOwnProperty(key))
+				jsonData[key] = data[i];
+			else
+			{
+				if(!Array.isArray(jsonData[key]))
+					jsonData[key] = [jsonData[key]];
 
-        if (!acc[groupKey])
-            acc[groupKey] = [];
-
-        acc[groupKey].push(obj);
-        return acc;
-    }, {});
-}
-
-// approach 1
-function groupBy1(data, key) {
-    var result = {};
-    for(let i = 0; i<data.length; i++) {
-        const obj = data[i];
-        const groupKey = obj[key];
-        if (!groupKey) continue;
-
-        if(!result[groupKey])
-            result[groupKey] = [];
-
-        result[groupKey].push(obj);
-    }
-    return result;
-}
-
-
-// approach 2
-function groupBy2(data, key) {
-    var result = {};
-    data.forEach(function(obj) {
-        const groupKey = obj[key];
-        if (!groupKey) return;
-
-        if(!result[groupKey])
-            result[groupKey] = [];
-
-        result[groupKey].push(obj);
-    });
-    return result;
+				jsonData[key].push(data[i]);
+			}
+		}
+	}
+	
+	return JSON.stringify(jsonData, null, 2);
 }
 
 
-// approach 4
-function groupBy4(data, key) {
-    var result = {};
-    data.map(function(obj) {
-        const groupKey = obj[key];
-        if (!groupKey) return;
-
-        if(!result[groupKey])
-            result[groupKey] = [];
-
-        result[groupKey].push(obj);
-    });
-    return result;
+function groupsBy(data,groupByKey)
+{
+	var jsonData = {}, key
+	
+	data.forEach(function (item, index)
+	{
+		if(!item.hasOwnProperty(groupByKey))
+			return;
+		else
+		{
+			key = item[groupByKey];
+			if(Array.isArray(jsonData[item[groupByKey]]))
+				jsonData[key].push(item);
+			else
+			{
+				jsonData[key] = item;
+				jsonData[key] = [jsonData[key]];
+			}
+		}
+	});
+	
+	return JSON.stringify(jsonData, null, 2);
 }
-console.log(JSON.stringify(groupBy4(data, 'city'), null, 4));
+
+console.log(groupsBy(data, 'city'));

@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel='stylesheet' href='style.css' />
+</head>
+
+<body>
+    <div class="players">
+        <label id='playerA'></label>
+        <span id='tic'>X</span>
+        <span id='toc'>O</span>
+        <label id='playerB'></label> 
+    </div>
+
+    <span id='message'>Choose player above</span>
+    
+    <div class="tic-tac-toe">
+        <table id="tic-tac-toe" cellspacing='0'>
+            <tbody>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <span id='gameOver'>
+            <p id='player'></p>
+        </span>
+    </div>
+
+    <p id='restart'>Restart</p>
+
+<script>
+    var players=[
+        {
+            player: 'Player A',
+            control: null,
+        },
+        {
+            player: 'Player B',
+            control: null,
+        }
+    ];
+    var activePlayer;
+    var tic = document.getElementById('tic');
+    var toc = document.getElementById('toc')
+    var ticTacToe = document.getElementById('tic-tac-toe');
+    var gameOver = document.getElementById('gameOver');
+    var message = document.getElementById('message');
+    var restart = document.getElementById('restart');
+
+    function picPlayerControl(event) {
+        if(!activePlayer){
+            tic.classList.remove('active');
+            toc.classList.remove('active');
+
+            event.currentTarget.classList.add('active');
+
+            if(event.target.id === 'tic'){
+                if(players[0].control == null){
+                    playerA.innerHTML = players[0].player;
+                    playerB.innerHTML = players[1].player;
+                    
+                    players[0].control = event.target.innerHTML;
+                    players[1].control = 'O';
+                }
+            }
+            else {
+                if(players[0].control == null){
+                    playerA.innerHTML = players[1].player;
+                    playerB.innerHTML = players[0].player;
+                    
+                    players[0].control = event.target.innerHTML;
+                    players[1].control = 'X';
+                }
+            }
+            activePlayer = players[0];
+            displayMessage(players[0].player + ' move');
+        }
+    }
+
+    function displayMessage(msg) {
+        message.style.color = '#aaaaaa';
+        message.innerHTML = msg;
+    }
+
+    function placePlayerPicker(event) {
+        if(!event.target.innerHTML){
+            if(activePlayer) {
+                event.target.innerHTML = activePlayer.control;
+                var gameStatus = checkGaveOver();
+                if(gameStatus == 'Game Over') {
+                    gameOver.children[0].innerHTML = activePlayer.control + '<br/>Winner!';
+                    gameOver.style.display = 'block';
+                    restart.style.display='block';
+                    //alert('Game over,' + activePlayer.player + ' wins the game');
+                    return;
+                }
+                else if(gameStatus == 'draw') {
+                    gameOver.children[0].innerHTML = 'Game<br/>Draw';
+                    gameOver.style.display = 'block';
+                    restart.style.display='block';
+                }
+
+                tic.classList.remove('active');
+                toc.classList.remove('active');
+
+                if(tic.innerHTML === activePlayer.control)
+                    toc.classList.add('active');
+                else
+                    tic.classList.add('active');
+                activePlayer = players[0].player === activePlayer.player ? players[1] : players[0];
+                displayMessage(activePlayer.player + ' move');
+            }
+            else
+                message.style.color='red';
+        }
+    }
+
+    function checkGaveOver() {
+        var cellCount=0;
+        var hasNull = true;
+        var cols;
+        var rows = ticTacToe.children[0].children;
+        for(var i=0; i < rows.length; i++) {
+            cols = rows[0].children;
+            for(var j=0; j < cols.length; j++) {
+                hasNull = rows[i].children[j].innerHTML == '' ? true : false;
+                if(activePlayer.control == rows[i].children[j].innerHTML &&
+                    activePlayer.control == rows[i].children[j].nextElementSibling?.innerHTML &&
+                    activePlayer.control == rows[i].children[j].previousElementSibling?.innerHTML
+                ) {
+                    
+                    rows[i].children[0].style.backgroundColor ='rgba(0, 151, 136, .9)';
+                    rows[i].children[1].style.backgroundColor = 'rgba(0, 151, 136, .9)';
+                    rows[i].children[2].style.backgroundColor = 'rgba(0, 151, 136, .9)';
+
+                    return 'Game Over';
+                }
+                else if(activePlayer.control == rows[0].children[j].innerHTML &&
+                    activePlayer.control == rows[1].children[j].innerHTML &&
+                    activePlayer.control == rows[2].children[j].innerHTML
+                ) {
+                    
+                    rows[0].children[j].style.backgroundColor = 'rgba(0, 151, 136, .9)';
+                    rows[1].children[j].style.backgroundColor = 'rgba(0, 151, 136, .9)';
+                    rows[2].children[j].style.backgroundColor = 'rgba(0, 151, 136, .9)';
+                    return 'Game Over';
+                }       
+            }
+        }
+        if(!hasNull)
+        {
+            return 'draw'
+        }
+    }
+
+    function restartGame() {
+        gameOver.style.display='';
+        restart.style.display='';
+        if(activePlayer.control == 'X')
+            tic.classList.remove('active');
+        else
+            toc.classList.remove('active');
+        activePlayer = null;
+        playerA.innerHTML=null;
+        playerB.innerHTML=null;
+        displayMessage('Choose player above');
+        players[0].control = null;
+        players[1].control = null;
+        var cols;
+        var rows = ticTacToe.children[0].children;
+        for(var i=0; i < rows.length; i++) {
+            cols = rows[0].children;
+            for(var j=0; j < cols.length; j++) {
+                rows[i].children[j].innerHTML = '';
+                rows[i].children[j].style.backgroundColor = 'transparent';
+            }
+        }
+    }
+
+    tic.addEventListener('click', picPlayerControl);
+    toc.addEventListener('click', picPlayerControl);
+    ticTacToe.addEventListener('click', placePlayerPicker);
+    restart.addEventListener('click', restartGame);
+</script>
+
+</body>
+</html>
